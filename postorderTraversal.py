@@ -50,6 +50,25 @@ class Solution:
 
         return order_list
 
-                
-                
+    # Instead of pushing and poping nodes, an alternative approach is to trevase along with one current variable, such as: current = current.left
+    def postorderTraversal_1(self, root):
+        res, stack, current, prev = [], [], root, None
     
+        while stack or current:
+            # Not yet reached the end, record the node and explore its left tree
+            if current:
+                stack.append(current)
+                current = current.left
+            else:
+            # If all left branches are explored, get the parent first
+                parent = stack[-1]
+            # check if the right leave is empty, or if the right leave has been visited:
+                if parent.right in (None, prev):
+                    prev = stack.pop()
+                    res.append(prev.val)
+                else:
+                    current = parent.right
+        return res
+
+
+

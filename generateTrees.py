@@ -29,4 +29,22 @@ class Solution:
                     head.right = n
                     heads.append(head)
         return heads
-                
+
+    def generateTrees_Rec(self,i,j):
+        nodes = []
+
+        if i > j:
+            nodes.append(None)
+        if i == j:
+            nodes.append(TreeNode(i))
+        else:
+            for k in range(i,j+1):
+                for l in self.generateTrees_Rec(i,k-1):
+                    for j in self.generateTrees_Rec(k+1,j):
+                        head = TreeNode(k)
+                        k.left = l
+                        k.right = j
+                        nodes.append(k)
+
+        return nodes
+

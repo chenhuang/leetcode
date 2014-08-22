@@ -19,7 +19,7 @@ class Solution:
     # @param S, a string
     # @param L, a list of string
     # @return a list of integer
-    def findSubstring(self, S, L):
+    def findSubstring_1(self, S, L):
         if len(L) == 0: return None
 
         subs_len = len(L)*len(L[0])
@@ -50,8 +50,30 @@ class Solution:
             if i != 1:
                 return False
         return True
-                
+    
+    def findSubstring_2(self, S, L):
+        len_S = len(S)
+        len_L = sum([len(i) for i in L])
+        output = []
+
+        for i in range(len_S-len_L):
+            if self.findSubstringRec(S[i:],L):
+                output.append(i)
+
+        return output
+        
+    def findSubstringRec(self, S, L):
+        result = False
+        if len(L) == 0:
+            result = True 
+        else:
+            for i in range(len(L)):
+                if S[0:len(L[i])] == L[i]:
+                    result = result or self.findSubstringRec(S[len(L[i]):], L[:i]+L[i+1:])
+    
+        return result
 
 if __name__ == "__main__":
     s = Solution()
     print s.findSubstring("barfoothefoobarman", ["foo", "bar"])
+

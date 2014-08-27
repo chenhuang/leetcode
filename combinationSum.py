@@ -33,7 +33,25 @@ class Solution:
             for i in range(start, len(candidates)):
                 self.combinationSumRec(candidates, target-candidates[i], records+[candidates[i]], i)
 
+    def combinationSum_1(self, C,T):
+        C = sorted(C)
+        result = self.comb_sum_rec(C,T)
+        return result
+
+    def comb_sum_rec(self, C,T):
+        result = []
+        for i in range(len(C)):
+            if C[i] == T:
+                result.append([C[i]])
+            if C[i] < T:
+                tmp_res = self.comb_sum_rec(C[i:],T-C[i])
+                for res in tmp_res:
+                    result.append([C[i]]+res)
+        return result
+
+
 if __name__ == "__main__":
     s = Solution()
     print s.combinationSum([2,3,6,7], 7)
+    print s.combinationSum_1([2], 1)
 

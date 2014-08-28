@@ -23,7 +23,7 @@ https://oj.leetcode.com/problems/combinations/
 # Choose k out of n:
 class Solution:
     # @return a list of lists of integers
-    def combine(self, n, k):
+    def combine_1(self, n, k):
         if k == 0: return []
         queue = []
         for i in range(1,n+1):
@@ -39,9 +39,22 @@ class Solution:
 
         return queue
 
-if __name__ == "__main__":
-    s = Solution()
-    print s.combine(4,2)
+    def combine(self, n, k):
+        return self.combine_rec(1,n,[],k)
+
+    def combine_rec(self, start, end, current_comb,k):
+        result = []
+        if k == 0:
+            result.append(current_comb)
+        for i in range(start,end+1):
+            result.extend(self.combine_rec(i+1,end,current_comb+[i],k-1))
+
+        return result
         
 
 
+if __name__ == "__main__":
+    s = Solution()
+    print s.combine(4,3)
+    #print s.combine_1(4,2)
+        

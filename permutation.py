@@ -49,12 +49,32 @@ def permutation_iter(nums):
         solutions = next
 
     return solutions
-            
+
+# Uniuqe combinations for the numbers, numbers might be duplicated. 
+def permutations_II(nums):
+    nums = sorted(nums)
+
+    return permu_rec(nums,[])
+
+def permu_rec(nums, prefix):
+    result = []
+    if len(nums) == 0:
+        result.append(prefix)
+    for i in range(len(nums)):
+        if i-1>=0 and nums[i] == nums[i-1]:
+            continue
+        result.extend(permu_rec(nums[:i]+nums[i+1:],prefix+[nums[i]]))
+
+    return result
+
+
 
 
 if __name__ == "__main__":
     #test_list = [1,2,3]
     #output = []
     #permutation(test_list,0,output)
-    print permutation_rec("abc","")
-    print permutation_iter(['a','b','c'])
+    #print permutation_rec("abc","")
+    #print permutation_iter(['a','b','c'])
+    nums = [1,1,2]
+    print permutations_II(nums)

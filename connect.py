@@ -84,3 +84,33 @@ class Solution:
                 
         self.connect_II(root.left)
         self.connect_II(root.right)
+
+    def connect_1(self, root):
+        head = None # head of the next level
+        prev = None # leading node on the next level
+        cur = root  # current node of current level
+
+        while cur is not None:
+            while cur is not None: # Iteration the current level
+                if cur.left is not None: # Left child
+                    if prev is not None:
+                        prev.next = cur.left
+                    else:
+                        head = cur.left
+                    prev = cur.left
+
+                if cur.right is not None:
+                    if prev is not None:
+                        prev.next = cur.right
+                    else:
+                        head = cur.right
+                    prev = cur.right
+
+                cur = cur.next # Move to next node
+
+            # Move to next level
+            cur = head
+            head = None
+            prev = None
+        
+

@@ -13,7 +13,7 @@ Return 3.
 
 
 class Solution:
-    def numDistinct(self, S, T):
+    def numDistinct_1(self, S, T):
         self.count = 0
         self.numDistinctRec(S,T)
         return self.count
@@ -25,6 +25,20 @@ class Solution:
             for i in range(len(S)):
                 new_S = S[:i]+S[i+1:]
                 self.numDistinctRec(new_S, T)
+
+    def numDistinct(self, S,T):
+        count = 0
+        if T == "":
+            count += 1
+        else:
+            if S == "":
+                return count
+
+            if S[0] == T[0]:
+                count += self.numDistinct(S[1:],T[1:])
+            count += self.numDistinct(S[1:],T)
+
+        return count
 
 # DP solution
 
@@ -47,7 +61,6 @@ class Solution:
                     t[i].append(t[i-1][j-1]+t[i][j-1]) # This is the key part very difficult the + part
                 else:
                     t[i].append(t[i][j-1])
-        print t
 
         return t[len(T)-1][len(S)-1]
 

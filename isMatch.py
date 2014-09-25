@@ -108,18 +108,29 @@ M[m][j] = t[j] == '*' and M[m][j+1]
 '''
 
 def isMatch_DP(self, string, pattern):
-    m = len(string)
-    n = len(pattern)
+        m = len(string)
+        n = len(pattern)
 
-    M = []
-    for i in range(m):
-        M.append([False for j in range(n)])
-   
-    # Initialize M
-    for i in reversed(range(m)):
-        M[i][n-1] = pattern[n-1] == '*'
-    for i in reversed(range(n)):
-        M[m-1][i] = (pattern[i] == '*' or pattern[i] == '?') and M[m-1][i+1]
+        M = []
+        for i in range(m):
+            M.append([False for j in range(n)])
+       
+        # Initialize M for DP, might be a better idea to start from m and n:
+        # Starting from m and n is to avoid the problem of 0
+        for i in reversed(range(m+1)):
+            M[i][n-1] = pattern[n-1] == '*'
+        M[m-1][n-1] = pattern[n-1] == '?' or pattern[n-1] == '*'
+        for i in reversed(range(n+1)):
+            M[m-1][i] = pattern[i] == '*' and M[m-1][i+1]
+
+        # Fill up the rest of the matrix
+        for i in reversed(range(m-1)):
+            for j in reversed(range(n-1)):
+                M[i][j] = string[i] == pattern[j] and M[i+1][j+1]
+                M[i][j] = M[i][j] or (pattern[j] == '*' and (M[i+1][j] or M[i+1][j+1]))
+                M[i][j] = M[i][j] or (pattern[j] == '?' and M[i+1][j+1])
+
+        return M[0][0]
 
 
 if __name__ == "__main__":
@@ -128,9 +139,9 @@ if __name__ == "__main__":
     print s.isMatch("ab","aa")
     print s.isMatch("a","*")
     print s.isMatch("aa","a*")
-    print s.isMatch("aa","?*")
-    print s.isMatch("aabbbabbbbbabbaabbbbbabbaababaabaaaaabbaaaabbbaaabbb","****b***a**ba**a***a")
-    print s.isMatch("aaaabaaaabbbbaabbbaabbaababbabbaaaababaaabbbbbbaabbbabababbaaabaabaaaaaabbaabbbbaababbababaabbbaababbbba","*****b*aba***babaa*bbaba***a*aaba*b*aa**a*b**ba***a*a*")
+    print s.isMatch("","*")
+    #print s.isMatch("aabbbabbbbbabbaabbbbbabbaababaabaaaaabbaaaabbbaaabbb","****b***a**ba**a***a")
+    #print s.isMatch("aaaabaaaabbbbaabbbaabbaababbabbaaaababaaabbbbbbaabbbabababbaaabaabaaaaaabbaabbbbaababbababaabbbaababbbba","*****b*aba***babaa*bbaba***a*aaba*b*aa**a*b**ba***a*a*")
     #print s.isMatch("ab", ".*c")
     #print s.isMatch("aaa", "a*a")
     #print s.isMatch("a", "ab*")

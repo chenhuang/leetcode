@@ -35,7 +35,7 @@ class Solution:
     # @param s, a string
     # @return a list of lists of string
     # DFS
-    def partition(self, s):
+    def partition_1(self, s):
         self.output = []
         self.dfs(s,0,[])
         return self.output
@@ -50,6 +50,20 @@ class Solution:
                     records.append(prefix)
                     self.dfs(s,i,list(records))
                     records.pop()
+
+    def partition(self, s):
+        return self.recursion(s,[])
+
+    def recursion(self, s, record):
+        result = []
+        if s == "":
+            result.extend([record])
+        else:
+            for i in range(len(s)):
+                if self.isPal(s[0:i+1]):
+                    result.extend(self.recursion(s[i+1:],record+[s[0:i+1]]))
+        return result
+
 
     def isPal(self, s):
         s_len = len(s)
@@ -93,9 +107,9 @@ class Solution:
 
 if __name__ == "__main__":
     s = Solution()
-    #print s.partition("aab")
-    print s.minCut("cabbacc")
-    print s.minCut("cabbac")
-    print s.minCut("abc")
-    print s.minCut("aaa")
+    print s.partition("aab")
+    #print s.minCut("cabbacc")
+    #print s.minCut("cabbac")
+    #print s.minCut("abc")
+    #print s.minCut("aaa")
 

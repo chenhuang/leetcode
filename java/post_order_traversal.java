@@ -37,5 +37,25 @@ public class post_order_traversal {
             return result
         }
 
+        stack.push(root);
+        while (!stack.empty()) {
+            curr = stack.peek();
+            if (prev == null || prev.left == curr || prev.right == curr) {
+                if (curr.left != null) {
+                    stack.push(curr.left);
+                } else if (curr.right != null) {
+                    stack.push(curr.right);
+                }       
+            } else if (curr.left == prev) {
+                if (curr.right != null) {
+                    stack.push(curr.right);
+                }
+            } else {
+                result.add(curr.val);
+                stack.pop();    
+            }
+            prev = curr;
+        }
+        return result;
     }
 }

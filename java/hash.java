@@ -1,32 +1,37 @@
 import java.util.LinkedList;
+import java.util.ArrayList;
 // Implement a int hash function using open hasing basically a linkedlist
 
 
 public class hash {
-    private ArrayList<LinkedList<int>> values = new ArrayList<LinkedList<int>>(100);
+    private ArrayList<LinkedList<Integer>> values = new ArrayList<LinkedList<Integer>>(100);
     private int HASH_TABLE_SIZE;
 
     public hash(int size) {
         HASH_TABLE_SIZE = size;
-        values = new ArrayList<LinkedList<int>>(size);
+        values = new ArrayList<LinkedList<Integer>>(size);
     }
 
     public boolean insert(String key, int value) {
         int hashed_key = hashfunc(key);
         if (values.get(hashed_key) == null) {
-            values.add(hashed_key, new LinkedList<int>());
+            values.add(hashed_key, new LinkedList<Integer>());
         }
 
-        LinkedList<int> list = values.get(hashed_key);
+        LinkedList<Integer> list = values.get(hashed_key);
         list.add(value);
+
+        return true;
     }
 
-    public boolean delete(int value) {
+    public boolean delete(String key) {
+        int hashed_key = hashfunc(key);
 
+        return true;
     }
 
-    public boolean find(int value) {
-
+    public boolean find(String key) {
+        return true;
     }
   
     private int hashfunc(String key) {

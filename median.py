@@ -72,7 +72,5 @@ class solution:
 
 if __name__ == "__main__":
     s = solution()
-
     s.findMedian(range(1,20),4)
-       
-        
+

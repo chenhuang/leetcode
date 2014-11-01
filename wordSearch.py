@@ -65,12 +65,44 @@ class Solution:
 
         return False
 
+    def word_search(self, board, word):
+        for i in range(len(board)):
+            for j in range(len(board[0][0])):
+                if self.word_search_rec(board,word,(i,j)):
+                    return True
+
+        return False
+        
+    def word_search_rec(self, board, word, pos):
+        result = False
+        if len(word) == 0:
+            return True
+        else:
+            (x,y) = pos
+            if word[0] == board[x][0][y]:
+                old_line = board[x][0]
+                board[x][0] = board[x][0][:y]+'0'+board[x][0][y+1:]
+                if x+1 >= 0 and x+1 < len(board):
+                    result = self.word_search_rec(board, word[1:], (x+1,y)) or result
+                if x-1 >= 0 and result == False:
+                    result = self.word_search_rec(board, word[1:], (x-1,y)) or result
+                if y-1 >= 0 and result == False:
+                    result = self.word_search_rec(board, word[1:], (x,y-1)) or result
+                if y+1 >= 0 and y+1 < len(board[0][0]) and result == False:
+                    result = self.word_search_rec(board, word[1:], (x,y+1)) or result
+                board[x][0] = old_line
+
+            return result
+
 if __name__ == "__main__":
     s = Solution()
     board = [["ABCE"],["SFCS"],["ADEE"]]
     print s.exist(board, "ABCCED")
     print s.exist(board, "SFCS")
     print s.exist(board, "ABCB")
+    print s.word_search(board, "ABCCED")
+    print s.word_search(board, "SFCS")
+    print s.word_search(board, "ABCB")
 
             
             

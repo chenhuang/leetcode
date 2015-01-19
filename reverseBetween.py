@@ -12,7 +12,7 @@ class Solution:
     # @param m, an integer
     # @param n, an integer
     # @return a ListNode
-    def reverseBetween(self, head, m, n):
+    def reverseBetween1(self, head, m, n):
         if head == None or head.next == None: return head
         if m == n: return head
         
@@ -36,12 +36,40 @@ class Solution:
         pre.next = end
             
         return newhead.next 
+
+    def reverseBetween(self, head, m, n):
+        dummy = ListNode(0, head)
+        pre = dummy
+        cur = head
+        
+        for i in range(m-1):
+            pre = cur
+            cur = cur.next
+        
+        next_ = cur.next
+        for i in range(n - m):
+            tmp = next_.next
+            next_.next = cur
+            cur = next_
+            next_ = tmp
+        
+        pre.next.next = next_
+        pre.next = cur
+        
+        return dummy.next
+
+    def printList(self, head):
+        while head is not None:
+            print head.val
+            head = head.next
      
 if __name__ == "__main__":
     s = Solution()
-    head = s.reverseBetween(ListNode(3,ListNode(5,None)),1,2) 
     
-    while head != None:
-        print head.val
-        head = head.next
+    head = s.reverseBetween(ListNode(3,ListNode(5,ListNode(6, None))),1,2) 
+    
+    if 0:
+        while head != None:
+            print head.val
+            head = head.next
 

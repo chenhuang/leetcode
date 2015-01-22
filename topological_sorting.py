@@ -11,7 +11,14 @@ import sys
 # One approach is to keep a table of edges and reverse the graph's edges, then the question becomes to remove nodes with 0 indegree, then propagate and update the graph. 
 #
 
-# edges is a hash of edges, each key is a node_id, value is a list of node_ids. 
+class Node:
+    def __init__(self, x):
+        self.val = x
+        self.neighbor = []
+
+    def addChild(self, child):
+        self.neighbor.append(child) #edges is a hash of edges, each key is a node_id, value is a list of node_ids. 
+
 class topological_sorting:
     def t_sorting(self, edges):
         reversed_edges = {}
@@ -48,18 +55,41 @@ class topological_sorting:
                     queue.append(child)
 
         return output_list
-                
-                
-            
+
+    def dfs(self, node, visited, order):
+        if len(node.neighbor) > 0:
+            for child in node.neighbor:
+                if child not in visited:
+                    self.dfs(child, visited, order)
+        visited.add(node)
+        order.append(node)
+
+    # alternative approach with DFS
+    def tsort_dfs(self, nodes):
+        visited = set()
+        order = []
+
+        for node in nodes:
+            if node not in visited:
+                self.dfs(node, visited, order)
+
+        return [n.val for n in reversed(order)]
+        
+if __name__ == "__main__":
+    s = topological_sorting()
+    nodes = []
+    for i in range(6):
+        nodes.append(Node(i))
+
+    nodes[5].addChild(nodes[2])
+    nodes[5].addChild(nodes[0])
+    nodes[2].addChild(nodes[3])
+    nodes[4].addChild(nodes[0])
+    nodes[4].addChild(nodes[1])
+    nodes[2].addChild(nodes[3])
+    nodes[3].addChild(nodes[1])
+
+    print s.tsort_dfs(nodes)
             
 
         
-            
-            
-            
-
-        
-
-
-
-

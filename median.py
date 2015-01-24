@@ -69,8 +69,84 @@ class solution:
             self.addElement(i)
             print self.getElement(k)
 
+import heapq
+class medianWithHeap:
+    class minHeap:
+        def __init__(self):
+            self.vals = []
+        def put(self, n):
+            heapq.heappush(self.vals, n)
+        def get(self):
+            if self.vals > 0:
+                return heapq.heappop(self.vals)
+            else:
+                return None
+        def size(self):
+            return len(self.vals)
+
+    class maxHeap:
+        def __init__(self):
+            self.vals = []
+        def put(self, n):
+            heapq.heappush(self.vals, -n)
+        def get(self):
+            if self.vals > 0:
+                return -heapq.heappop(self.vals)
+            else:
+                return None
+        def size(self):
+            return len(self.vals)
+
+
+    def __init__(self):
+        self.minHeap = medianWithHeap.minHeap()
+        self.maxHeap = medianWithHeap.maxHeap()
+
+    def add(self, n):
+        # Initialize the heaps
+        if self.minHeap.size() == 0:
+            self.minHeap.put(n)
+            return 
+        if self.maxHeap.size() == 0:
+            self.maxHeap.put(n)
+            return 
+
+        # get lower half max
+        left_max = self.maxHeap.get()
+        right_min = self.minHeap.get()
+        
+        # swap if necessary
+        if n < left_max:
+            tmp = left_max
+            left_max = n
+            n = tmp
+        elif n > right_min:
+            tmp = right_min
+            right_min = n
+            n = tmp
+            
+        # update heap
+        self.maxHeap.put(left_max)
+        self.minHeap.put(right_min)
+
+        if self.minHeap.size() > self.maxHeap.size():
+            self.maxHeap.put(n)
+        else:
+            self.minHeap.put(n)
+
+    def getMedian(self):
+        if self.minHeap.size() == self.maxHeap.size():
+            left_max = self.maxHeap.get()
+            right_min = self.minHeap.get()
+
+            return float((left_max+right_min)/2)
+        else:
+            return self.minHeap.get()
 
 if __name__ == "__main__":
-    s = solution()
-    s.findMedian(range(1,20),4)
+    s = medianWithHeap()
+    for i in [10, 9 ,7, 3, 1]:
+        s.add(i)
+    
+    print s.getMedian()
 

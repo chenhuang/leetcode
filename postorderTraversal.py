@@ -51,6 +51,13 @@ class Solution:
         return order_list
 
     # Instead of pushing and poping nodes, an alternative approach is to trevase along with one current variable, such as: current = current.left
+    # Tips of tree traversal or the use of stacks:
+    # 1. add more than one node at a time.
+    #   e.g. DFS/BFS
+    # 2. keep nodes in the stack to be those that are about to put into output list.
+    #   e.g. in order, operators
+    # 3. keep a prev node.
+
     def postorderTraversal_1(self, root):
         res, stack, current, prev = [], [], root, None
     
@@ -69,6 +76,35 @@ class Solution:
                 else:
                     current = parent.right
         return res
+
+    def post_2(self, root):
+        p = root
+        stack = []
+        output = []
+
+        while stack or p:
+            if p:
+                stack.append(p)
+                p = p.left
+            else:
+                p = stack.pop()
+                if p.right is None or (len(stack) > 0 and stack[-1].right == p):
+                    output.append(p)
+
+'''
+                    p = stack.pop()
+                    output.append(p)
+
+                    if len(stack) > 0:
+                        p = stack.pop()
+    # problematic, need to use 
+'''
+                else:
+                    stack.append(p)
+                    p = p.right
+
+        return output
+                
 
 
 
